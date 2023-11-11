@@ -18,7 +18,8 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import PrintIcon from "@mui/icons-material/Print";
 import SendIcon from "@mui/icons-material/Send";
 import EmailIcon from "@mui/icons-material/Email";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -35,6 +36,7 @@ const Search = styled("div")(({ theme }) => ({
     width: "auto",
   },
 }));
+
 
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
@@ -83,6 +85,13 @@ export const Navbar = () => {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleSearch = (data) => {
+    console.log(data)
+  }
+
+  const location = useLocation()
+
 
   const menuId = "primary-search-account-menu";
 
@@ -148,6 +157,31 @@ export const Navbar = () => {
           Print
         </p>
       </MenuItem>
+
+     {
+        location.pathname === "/depart" ? (
+        <MenuItem>
+        <IconButton size="large" color="inherit">
+          <AddCircleIcon />
+        </IconButton>
+
+        <p className="flex justify-center items-center font-bold cursor-pointer">
+          Add  depart
+        </p>
+      </MenuItem>
+        ) : location.pathname === "/arrivee" ? (
+        <MenuItem>
+        <IconButton size="large" color="inherit">
+          <AddCircleIcon />
+        </IconButton>
+
+        <p className="flex justify-center items-center font-bold cursor-pointer">
+          Add arrivee
+        </p>
+      </MenuItem>
+        ) : null
+      }
+
     </Menu>
   );
 
@@ -162,18 +196,19 @@ export const Navbar = () => {
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
+              onChange={(e) => handleSearch(e.target.value)}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: "1rem" }}>
             <Link to="/depart">
-              <p className="flex justify-center items-center border-2 border-white px-4 py-2 font-bold rounded-md hover:bg-white hover:text-blue-400 cursor-pointer">
+              <p className={`${location.pathname === "/depart" && "bg-white text-blue-400"} flex justify-center items-center border-2 border-white px-4 py-2 font-bold rounded-md hover:bg-white hover:text-blue-400 cursor-pointer`}>
                 Depart
               </p>
             </Link>
 
             <Link to="/arrivee">
-              <p className="flex justify-center items-center border-2 border-white px-4 py-2 font-bold rounded-md hover:bg-white hover:text-blue-400 cursor-pointer">
+              <p className={`${location.pathname === "/arrivee" && "bg-white text-blue-400"} flex justify-center items-center border-2 border-white px-4 py-2 font-bold rounded-md hover:bg-white hover:text-blue-400 cursor-pointer`}>
                 Arrivee
               </p>
             </Link>
@@ -197,6 +232,31 @@ export const Navbar = () => {
             >
               <PrintIcon />
             </IconButton>
+
+            {
+        location.pathname === "/depart" ? (
+        <div className="flex justify-center items-center cursor-pointer">
+        <IconButton size="large" color="inherit">
+          <AddCircleIcon />
+        </IconButton>
+
+        <p className="flex justify-center items-center font-bold cursor-pointer">
+          Add  depart
+        </p>
+      </div>
+        ) : location.pathname === "/arrivee" ? (
+        <div className="flex justify-center items-center cursor-pointer">
+        <IconButton size="large" color="inherit">
+          <AddCircleIcon />
+        </IconButton>
+
+        <p className="flex justify-center items-center font-bold cursor-pointer">
+          Add arrivee
+        </p>
+      </div>
+        ) : null
+      }
+
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
