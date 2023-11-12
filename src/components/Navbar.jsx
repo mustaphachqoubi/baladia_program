@@ -20,6 +20,7 @@ import SendIcon from "@mui/icons-material/Send";
 import EmailIcon from "@mui/icons-material/Email";
 import { Link, useLocation } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -62,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const Navbar = () => {
+export const Navbar = ({ setFormDisplay, formDisplay }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -88,6 +89,14 @@ export const Navbar = () => {
 
   const handleSearch = (data) => {
     console.log(data)
+  }
+
+  const handlePrint = () => {
+    window.print()
+  }
+
+  const handleFormDisplay = () => {
+    formDisplay === "hidden" ? setFormDisplay("flex") : setFormDisplay("hidden")
   }
 
   const location = useLocation()
@@ -148,7 +157,7 @@ export const Navbar = () => {
         </MenuItem>
       </Link>
 
-      <MenuItem>
+      <MenuItem onClick={handlePrint}>
         <IconButton size="large" color="inherit">
           <PrintIcon />
         </IconButton>
@@ -160,9 +169,9 @@ export const Navbar = () => {
 
      {
         location.pathname === "/depart" ? (
-        <MenuItem>
+        <MenuItem onClick={handleFormDisplay}>
         <IconButton size="large" color="inherit">
-          <AddCircleIcon />
+          {formDisplay === "flex" ? (<RemoveCircleIcon />) : <AddCircleIcon />}
         </IconButton>
 
         <p className="flex justify-center items-center font-bold cursor-pointer">
@@ -170,9 +179,9 @@ export const Navbar = () => {
         </p>
       </MenuItem>
         ) : location.pathname === "/arrivee" ? (
-        <MenuItem>
+        <MenuItem onClick={handleFormDisplay}>
         <IconButton size="large" color="inherit">
-          <AddCircleIcon />
+          {formDisplay === "flex" ? (<RemoveCircleIcon />) : <AddCircleIcon />}
         </IconButton>
 
         <p className="flex justify-center items-center font-bold cursor-pointer">
@@ -186,7 +195,7 @@ export const Navbar = () => {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1 }} className="dontprint">
       <AppBar position="static">
         <Toolbar>
           <Search>
@@ -226,6 +235,7 @@ export const Navbar = () => {
             </Link>
 
             <IconButton
+              onClick={handlePrint}
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
@@ -235,9 +245,9 @@ export const Navbar = () => {
 
             {
         location.pathname === "/depart" ? (
-        <div className="flex justify-center items-center cursor-pointer">
+        <div onClick={handleFormDisplay} className="flex justify-center items-center cursor-pointer">
         <IconButton size="large" color="inherit">
-          <AddCircleIcon />
+          {formDisplay === "flex" ? (<RemoveCircleIcon />) : <AddCircleIcon />}
         </IconButton>
 
         <p className="flex justify-center items-center font-bold cursor-pointer">
@@ -245,9 +255,9 @@ export const Navbar = () => {
         </p>
       </div>
         ) : location.pathname === "/arrivee" ? (
-        <div className="flex justify-center items-center cursor-pointer">
+        <div onClick={handleFormDisplay} className="flex justify-center items-center cursor-pointer">
         <IconButton size="large" color="inherit">
-          <AddCircleIcon />
+          {formDisplay === "flex" ? (<RemoveCircleIcon />) : <AddCircleIcon />}
         </IconButton>
 
         <p className="flex justify-center items-center font-bold cursor-pointer">

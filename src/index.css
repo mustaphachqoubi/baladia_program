@@ -13,3 +13,8 @@
 
 }
 
+@media print {
+  .dontprint{
+    display: none;
+  }
+}
