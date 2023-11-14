@@ -105,6 +105,7 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
   }
 
   const location = useLocation()
+ 
 
 
   const menuId = "primary-search-account-menu";
