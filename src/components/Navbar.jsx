@@ -21,6 +21,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import { Link, useLocation } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -99,6 +100,10 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
     formDisplay === "hidden" ? setFormDisplay("flex") : setFormDisplay("hidden")
   }
 
+  const handleDelete = () => {
+    
+  }
+
   const location = useLocation()
 
 
@@ -156,6 +161,16 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
           </p>
         </MenuItem>
       </Link>
+
+      <MenuItem onClick={handleDelete}>
+          <IconButton size="large" color="inherit">
+              <DeleteIcon />
+          </IconButton>
+
+          <p className="flex justify-center items-center font-bold cursor-pointer">
+            Delete
+          </p>
+        </MenuItem>
 
       <MenuItem onClick={handlePrint}>
         <IconButton size="large" color="inherit">
@@ -233,6 +248,15 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
                 </Badge>
               </IconButton>
             </Link>
+
+            <IconButton
+                size="large"
+                aria-label="show 17 new notifications"
+                color="inherit"
+                onClick={handleDelete}
+              >
+                  <DeleteIcon />
+              </IconButton>
 
             <IconButton
               onClick={handlePrint}
