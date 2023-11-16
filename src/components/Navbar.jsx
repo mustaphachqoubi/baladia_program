@@ -22,6 +22,7 @@ import { Link, useLocation } from "react-router-dom";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useForm } from "react-hook-form";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -64,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export const Navbar = ({ setFormDisplay, formDisplay }) => {
+export const Navbar = ({ setFormDisplay, formDisplay, setDeleteDisplay, deleteDisplay }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -101,7 +102,7 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
   }
 
   const handleDelete = () => {
-    
+    deleteDisplay === "hidden" ? setDeleteDisplay("flex") : setDeleteDisplay("hidden")
   }
 
   const location = useLocation()
@@ -163,7 +164,9 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
         </MenuItem>
       </Link>
 
-      <MenuItem onClick={handleDelete}>
+      {
+        location.pathname === "/depart" || location.pathname === "/arrivee" ? (
+        <MenuItem onClick={handleDelete}>
           <IconButton size="large" color="inherit">
               <DeleteIcon />
           </IconButton>
@@ -172,6 +175,8 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
             Delete
           </p>
         </MenuItem>
+        ) : null
+      } 
 
       <MenuItem onClick={handlePrint}>
         <IconButton size="large" color="inherit">
@@ -250,7 +255,11 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
               </IconButton>
             </Link>
 
-            <IconButton
+            
+
+            {
+        location.pathname === "/depart" || location.pathname === "/arrivee" ? (
+        <IconButton
                 size="large"
                 aria-label="show 17 new notifications"
                 color="inherit"
@@ -258,6 +267,8 @@ export const Navbar = ({ setFormDisplay, formDisplay }) => {
               >
                   <DeleteIcon />
               </IconButton>
+        ) : null
+      }
 
             <IconButton
               onClick={handlePrint}

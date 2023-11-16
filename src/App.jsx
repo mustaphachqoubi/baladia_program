@@ -10,9 +10,9 @@ import { useForm } from "react-hook-form";
 
 function App() {
 
-
   const [formDisplay, setFormDisplay] = useState("hidden")
   const [location, setLocation] = useState("")
+  const [deleteDisplay, setDeleteDisplay] = useState("hidden")
 
   const { register, handleSubmit, watch } = useForm();
 
@@ -37,7 +37,13 @@ function App() {
   return (
     <>
       <BrowserRouter>
-        <Navbar setFormDisplay={setFormDisplay} formDisplay={formDisplay} />
+        <Navbar setFormDisplay={setFormDisplay} formDisplay={formDisplay} setDeleteDisplay={setDeleteDisplay} deleteDisplay={deleteDisplay} />
+
+        <form onSubmit={handleSubmit(onSubmit)} className={`${deleteDisplay} bg-white m-4 p-4 rounded-md flex-col gap-4 items-center text-black`}>
+          <p className="font-bold bg-red-500 text-white py-2 px-4 rounded-md ">Put the number of the item that you want to delete</p>
+          <input {...register("number")} type="number" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
+          <button type="submit" className="bg-black text-white py-2 px-4 rounded-md font-bold hover:bg-white hover:text-black border-2 border-black">Delete</button>
+        </form>
 
         <form onSubmit={handleSubmit(onSubmit)} className={`${formDisplay} bg-white m-4 p-4 rounded-md flex-col gap-4 items-center text-black`}>
           <input {...register("number")} type="number" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
