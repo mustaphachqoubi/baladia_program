@@ -7,6 +7,7 @@ import { Notifications } from "./components/Notifications";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { FormControl } from "@mui/base/FormControl";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function App() {
 
@@ -26,9 +27,19 @@ function App() {
     setLocation(location)
   }
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    const waitedData = await data
+
     if(location.pathname === "/depart"){
-      console.log("yes")
+      try {
+      const response = await axios.post(process.env.REACT_APP_DEPART, {
+         waitedData
+      });
+      console.log(response.data);
+      console.log(waitedData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
     } else{
       console.log("no")
     }

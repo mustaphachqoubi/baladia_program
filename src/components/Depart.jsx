@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useLocation } from "react-router-dom"
+import axios from "axios"
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -24,9 +25,23 @@ export const Depart = ({ getLocation }) => {
 
   const location = useLocation()
 
+  const getDepart = async () => {
+
+    try {
+      const response = await axios.get(process.env.REACT_APP_DEPART);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  }
+
   useEffect(() => {
     getLocation(location)
   }, [location])
+
+  useEffect(() => {
+    getDepart()
+  }, [])
 
   return (
     <TableContainer component={Paper}>
