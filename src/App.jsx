@@ -33,7 +33,7 @@ function App() {
     if(location.pathname === "/depart"){
       try {
       const response = await axios.post(process.env.REACT_APP_DEPART, {
-         waitedData
+        DepartTd: [ waitedData ]
       });
       console.log(response.data);
       console.log(waitedData);

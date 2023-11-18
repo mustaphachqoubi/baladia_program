@@ -22,9 +22,9 @@ export const createDepart = async (req, res) => {
 
 // delete
 export const deleteDepart = async (req, res) => {
-  const { id } = req.params
+  const { number } = req.params
 
-  if(!mongoose.Types.ObjectId.isValid(id)){
+  if(!mongoose.Types.ObjectId.isValid(number)){
     res.status(404).json({ error: "id is not valid" })
   }
 
@@ -32,7 +32,7 @@ export const deleteDepart = async (req, res) => {
     {},
     {
       $pull: {
-        DepartTd: { "_id": id }
+        DepartTd: { "number": number}
       }
     },
     {new: true}
