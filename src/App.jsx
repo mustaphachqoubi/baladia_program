@@ -40,8 +40,18 @@ function App() {
     } catch (error) {
       console.error("Error:", error);
     }
-    } else{
-      console.log("no")
+    } 
+    
+  if(location.pathname === "/arrivee"){
+      try {
+      const response = await axios.post("https://baladia-program.onrender.com/arrivee", {
+         waitedData
+      });
+      console.log(response.data);
+      console.log(waitedData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
     }
   };
 

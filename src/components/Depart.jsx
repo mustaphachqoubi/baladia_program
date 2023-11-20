@@ -9,9 +9,6 @@ import Paper from "@mui/material/Paper";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-
-
-
 export const Depart = ({ getLocation }) => {
   const location = useLocation();
 
@@ -19,7 +16,7 @@ export const Depart = ({ getLocation }) => {
 
   const getDepart = async () => {
     try {
-      const response = await axios.get(process.env.REACT_APP_DEPART);
+      const response = await axios.get("https://baladia-program.onrender.com/depart");
       setDepartData(response.data);
     } catch (error) {
       console.error("Error:", error);
