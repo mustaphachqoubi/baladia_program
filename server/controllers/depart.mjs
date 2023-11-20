@@ -25,7 +25,7 @@ export const deleteDepart = async (req, res) => {
   const { number } = req.params
 
   
-  const depart = await Depart.deleteMany({ number: number })
+  const depart = await Depart.findOneAndDelete({ number: number })
 
 
   if(!depart){

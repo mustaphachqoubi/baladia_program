@@ -23,7 +23,7 @@ export const createArrivee = async (req, res) => {
 export const deleteArrivee = async (req, res) => {
   const { number } = req.params
 
-  const arrivee = await Arrivee.deleteMany({ number: number })
+  const arrivee = await Arrivee.findOneAndDelete({ number: number })
 
   if(!arrivee){
     res.status(404).json({ error: "There is no arrivee with this number found" })
