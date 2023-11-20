@@ -10,10 +10,9 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 function App() {
-
-  const [formDisplay, setFormDisplay] = useState("hidden")
-  const [location, setLocation] = useState("")
-  const [deleteDisplay, setDeleteDisplay] = useState("hidden")
+  const [formDisplay, setFormDisplay] = useState("hidden");
+  const [location, setLocation] = useState("");
+  const [deleteDisplay, setDeleteDisplay] = useState("hidden");
 
   const { register, handleSubmit, watch } = useForm();
 
@@ -21,64 +20,144 @@ function App() {
   const messageDate = watch("date_number");
   const reciever = watch("destination");
   const subject = watch("deal_analyse");
-  const answerdate = watch("response_date_number"); 
+  const answerdate = watch("response_date_number");
+  const deleteNumber = watch("delete_number");
 
   const getLocation = (location) => {
-    setLocation(location)
-  }
+    setLocation(location);
+  };
+
+  const deleteItem = (e) => {
+    e.preventDefault();
+    console.log(deleteNumber);
+
+    if (location.pathname === "/arrivee") {
+      axios
+        .delete(`https://baladia-program.onrender.com/arrivee/${deleteNumber}`)
+        .then((res) => {
+          console.log(res);
+        });
+    }
+
+    if (location.pathname === "/depart") {
+      axios
+        .delete(`https://baladia-program.onrender.com/depart/${deleteNumber}`)
+        .then((res) => {
+          console.log(res);
+        });
+    }
+  };
 
   const onSubmit = async (data) => {
-    const waitedData = await data
+    const waitedData = await data;
 
-    if(location.pathname === "/depart"){
+    if (location.pathname === "/depart") {
       try {
-      const response = await axios.post(process.env.REACT_APP_DEPART, {
-        DepartTd: [ waitedData ]
-      });
-      console.log(response.data);
-      console.log(waitedData);
-    } catch (error) {
-      console.error("Error:", error);
+        const response = await axios.post(process.env.REACT_APP_DEPART, {
+          DepartTd: [waitedData],
+        });
+        console.log(response.data);
+        console.log(waitedData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-    } 
-    
-  if(location.pathname === "/arrivee"){
+
+    if (location.pathname === "/arrivee") {
       try {
-      const response = await axios.post("https://baladia-program.onrender.com/arrivee", {
-         waitedData
-      });
-      console.log(response.data);
-      console.log(waitedData);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+        const response = await axios.post(
+          "https://baladia-program.onrender.com/arrivee",
+          {
+            ArriveeTd: [waitedData],
+          }
+        );
+        console.log(waitedData);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
   };
 
   return (
     <>
       <BrowserRouter>
-        <Navbar setFormDisplay={setFormDisplay} formDisplay={formDisplay} setDeleteDisplay={setDeleteDisplay} deleteDisplay={deleteDisplay} />
+        <Navbar
+          setFormDisplay={setFormDisplay}
+          formDisplay={formDisplay}
+          setDeleteDisplay={setDeleteDisplay}
+          deleteDisplay={deleteDisplay}
+        />
 
-        <form onSubmit={handleSubmit(onSubmit)} className={`${deleteDisplay} bg-white m-4 p-4 rounded-md flex-col gap-4 items-center text-black`}>
-          <p className="font-bold bg-red-500 text-white py-2 px-4 rounded-md ">Put the number of the item that you want to delete</p>
-          <input {...register("number")} type="number" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
-          <button type="submit" className="bg-black text-white py-2 px-4 rounded-md font-bold hover:bg-white hover:text-black border-2 border-black">Delete</button>
+        <form
+          onSubmit={deleteItem}
+          className={`${deleteDisplay} bg-white m-4 p-4 rounded-md flex-col gap-4 items-center text-black`}
+        >
+          <p className="font-bold bg-red-500 text-white py-2 px-4 rounded-md ">
+            Put the number of the item that you want to delete
+          </p>
+          <input
+            {...register("delete_number")}
+            type="number"
+            className="w-60 p-2 text-white border-2 border-black rounded-md"
+          />
+          <button
+            type="submit"
+            className="bg-black text-white py-2 px-4 rounded-md font-bold hover:bg-white hover:text-black border-2 border-black"
+          >
+            Delete
+          </button>
         </form>
 
-        <form onSubmit={handleSubmit(onSubmit)} className={`${formDisplay} bg-white m-4 p-4 rounded-md flex-col gap-4 items-center text-black`}>
-          <input {...register("number")} type="number" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
-          <input {...register("messageDate")} type="date" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
-          <textarea {...register("reciever")} type="text" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
-          <textarea {...register("subject")} type="text" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
-          <input {...register("answerdate")} type="date" className="w-60 p-2 text-white border-2 border-black rounded-md"/>
-          <button type="submit" className="bg-black text-white py-2 px-4 rounded-md font-bold hover:bg-white hover:text-black border-2 border-black">Save</button>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className={`${formDisplay} bg-white m-4 p-4 rounded-md flex-col gap-4 items-center text-black`}
+        >
+          <input
+            required
+            {...register("number")}
+            type="number"
+            className="w-60 p-2 text-white border-2 border-black rounded-md"
+          />
+          <input
+            required
+            {...register("messageDate")}
+            type="date"
+            className="w-60 p-2 text-white border-2 border-black rounded-md"
+          />
+          <textarea
+            required
+            {...register("reciever")}
+            type="text"
+            className="w-60 p-2 text-white border-2 border-black rounded-md"
+          />
+          <textarea
+            required
+            {...register("subject")}
+            type="text"
+            className="w-60 p-2 text-white border-2 border-black rounded-md"
+          />
+          <input
+            required
+            {...register("answerdate")}
+            type="date"
+            className="w-60 p-2 text-white border-2 border-black rounded-md"
+          />
+          <button
+            type="submit"
+            className="bg-black text-white py-2 px-4 rounded-md font-bold hover:bg-white hover:text-black border-2 border-black"
+          >
+            Save
+          </button>
         </form>
 
         <Routes>
           <Route index element={<Notifications />} />
           <Route path="depart" element={<Depart getLocation={getLocation} />} />
-          <Route path="arrivee" element={<Arrivee getLocation={getLocation} />} />
+          <Route
+            path="arrivee"
+            element={<Arrivee getLocation={getLocation} />}
+          />
         </Routes>
       </BrowserRouter>
     </>

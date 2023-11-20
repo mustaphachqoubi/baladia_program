@@ -18,7 +18,6 @@ export const Arrivee = ({ getLocation }) => {
     try {
       const response = await axios.get("https://baladia-program.onrender.com/arrivee");
       setArriveeData(response.data);
-      console.log(response)
     } catch (error) {
       console.error("Error:", error);
     }
@@ -31,10 +30,6 @@ export const Arrivee = ({ getLocation }) => {
   useEffect(() => {
     getArrivee();
   }, []);
-
-  useEffect(() => {
-    console.log(arriveeData)
-  }, [arriveeData])
 
   return (
     <TableContainer component={Paper}>

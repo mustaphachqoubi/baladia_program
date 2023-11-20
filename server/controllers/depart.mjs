@@ -24,22 +24,12 @@ export const createDepart = async (req, res) => {
 export const deleteDepart = async (req, res) => {
   const { number } = req.params
 
-  if(!mongoose.Types.ObjectId.isValid(number)){
-    res.status(404).json({ error: "id is not valid" })
-  }
+  
+  const depart = await Depart.deleteMany({ number: number })
 
-  const depart = await Depart.findOneAndUpdate(
-    {},
-    {
-      $pull: {
-        DepartTd: { "number": number}
-      }
-    },
-    {new: true}
-  )
 
   if(!depart){
-    res.status(404).json({ error: "There is no depart with this id found" })
+    res.status(404).json({ error: "There is no depart with this number found" })
   }
 
   res.status(200).json(depart)
