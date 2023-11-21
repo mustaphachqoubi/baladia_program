@@ -155,7 +155,7 @@ function App() {
 
         <Routes>
           <Route index element={<Notifications />} />
-          <Route path="depart" element={<Depart getLocation={getLocation} />} />
+          <Route path="depart" element={<Depart setDeleteId={setDeleteId} deleteNumber={deleteNumber} getLocation={getLocation} />} />
           <Route
             path="arrivee"
             element={<Arrivee setDeleteId={setDeleteId} deleteNumber={deleteNumber} getLocation={getLocation} />}

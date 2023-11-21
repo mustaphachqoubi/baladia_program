@@ -22,14 +22,16 @@ export const createDepart = async (req, res) => {
 
 // delete
 export const deleteDepart = async (req, res) => {
-  const { number } = req.params
+  const { id } = req.params 
 
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    res.status(404).json({ error: "id is not valid" })
+  }  
   
-  const depart = await Depart.findOneAndDelete({ number: number })
-
+  const depart = await Depart.findOneAndDelete({ _id: id })
 
   if(!depart){
-    res.status(404).json({ error: "There is no depart with this number found" })
+    res.status(404).json({ error: "There is no depart with this id found" })
   }
 
   res.status(200).json(depart)

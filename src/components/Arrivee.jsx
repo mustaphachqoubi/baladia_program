@@ -34,7 +34,7 @@ export const Arrivee = ({ getLocation, deleteNumber, setDeleteId }) => {
   useEffect(() => {
     for(const item in arriveeData){
       if(arriveeData[item].ArriveeTd[0].number.toString() === deleteNumber){
-        setDeleteId(arriveeData[item].ArriveeTd[0]._id)
+        setDeleteId(arriveeData[item]._id)
       }
     }
   }, [arriveeData, deleteNumber])
