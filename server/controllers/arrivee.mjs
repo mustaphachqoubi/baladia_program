@@ -21,8 +21,10 @@ export const createArrivee = async (req, res) => {
 
 // delete
 export const deleteArrivee = async (req, res) => {
-  const { number } = req.params
+  const { number } = req.params 
 
+  console.log("Deleting item with number:", number);
+  
   const arrivee = await Arrivee.findOneAndDelete({ number: number })
 
   if(!arrivee){

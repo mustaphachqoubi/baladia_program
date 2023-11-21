@@ -29,9 +29,9 @@ function App() {
 
   const deleteItem = (e) => {
     e.preventDefault();
-    console.log(deleteNumber);
 
     if (location.pathname === "/arrivee") {
+      console.log(deleteNumber)
       axios
         .delete(`https://baladia-program.onrender.com/arrivee/${deleteNumber}`)
         .then((res) => {
@@ -40,6 +40,7 @@ function App() {
     }
 
     if (location.pathname === "/depart") {
+      console.log(deleteNumber)
       axios
         .delete(`https://baladia-program.onrender.com/depart/${deleteNumber}`)
         .then((res) => {
