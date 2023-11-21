@@ -21,15 +21,16 @@ export const createArrivee = async (req, res) => {
 
 // delete
 export const deleteArrivee = async (req, res) => {
-  const { number } = req.params 
+  const { id } = req.params 
 
-  console.log("Deleting item with number:", number);
-  console.log(req);
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    res.status(404).json({ error: "id is not valid" })
+  }
   
-  const arrivee = await Arrivee.findOneAndDelete({ number: number })
+  const arrivee = await Arrivee.findOneAndDelete({ _id: id })
 
   if(!arrivee){
-    res.status(404).json({ error: "There is no arrivee with this number found" })
+    res.status(404).json({ error: "There is no arrivee with this id found" })
   }
 
   res.status(200).json(arrivee)

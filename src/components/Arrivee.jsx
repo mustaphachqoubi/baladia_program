@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-export const Arrivee = ({ getLocation }) => {
+export const Arrivee = ({ getLocation, deleteNumber, setDeleteId }) => {
   const location = useLocation();
 
   const [arriveeData, setArriveeData] = useState([]);
@@ -30,6 +30,14 @@ export const Arrivee = ({ getLocation }) => {
   useEffect(() => {
     getArrivee();
   }, []);
+
+  useEffect(() => {
+    for(const item in arriveeData){
+      if(arriveeData[item].ArriveeTd[0].number.toString() === deleteNumber){
+        setDeleteId(arriveeData[item].ArriveeTd[0]._id)
+      }
+    }
+  }, [arriveeData, deleteNumber])
 
   return (
     <TableContainer component={Paper}>

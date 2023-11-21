@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TheTable } from "./components/Table.jsx";
 import { Navbar } from "./components/Navbar";
 import { Depart } from "./components/Depart";
@@ -13,6 +13,7 @@ function App() {
   const [formDisplay, setFormDisplay] = useState("hidden");
   const [location, setLocation] = useState("");
   const [deleteDisplay, setDeleteDisplay] = useState("hidden");
+  const [deleteId, setDeleteId] = useState(null);
 
   const { register, handleSubmit, watch } = useForm();
 
@@ -31,18 +32,18 @@ function App() {
     e.preventDefault();
 
     if (location.pathname === "/arrivee") {
-      console.log(deleteNumber)
+      console.log(deleteId)
       axios
-        .delete(`https://baladia-program.onrender.com/arrivee/${deleteNumber}`)
+        .delete(`https://baladia-program.onrender.com/arrivee/${deleteId}`)
         .then((res) => {
           console.log(res);
         });
     }
 
     if (location.pathname === "/depart") {
-      console.log(deleteNumber)
+      console.log(deleteId)
       axios
-        .delete(`https://baladia-program.onrender.com/depart/${deleteNumber}`)
+        .delete(`https://baladia-program.onrender.com/depart/${deleteId}`)
         .then((res) => {
           console.log(res);
         });
@@ -157,7 +158,7 @@ function App() {
           <Route path="depart" element={<Depart getLocation={getLocation} />} />
           <Route
             path="arrivee"
-            element={<Arrivee getLocation={getLocation} />}
+            element={<Arrivee setDeleteId={setDeleteId} deleteNumber={deleteNumber} getLocation={getLocation} />}
           />
         </Routes>
       </BrowserRouter>
