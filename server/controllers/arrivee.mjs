@@ -24,6 +24,7 @@ export const deleteArrivee = async (req, res) => {
   const { number } = req.params 
 
   console.log("Deleting item with number:", number);
+  console.log(req);
   
   const arrivee = await Arrivee.findOneAndDelete({ number: number })
 
