@@ -7,11 +7,11 @@ export const checkNotifications = async (req, res) => {
         // Fetch all documents from the Arrivee collection
         const allArrivee = await Arrivee.find({});
 
-        // Set the threshold seconds for testing (e.g., 10 seconds)
-        const thresholdSeconds = 10;
+        // Set the threshold days
+        const thresholdDays = 4;
 
-        // Filter documents based on the checkSecondsElapsed function
-        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds));
+        // Filter documents based on the checkDaysElapsed function
+        const delayedArrivee = allArrivee.filter(doc => checkDaysElapsed(doc, thresholdDays));
 
         res.status(200).json(delayedArrivee);
     } catch (error) {
@@ -19,12 +19,12 @@ export const checkNotifications = async (req, res) => {
     }
 };
 
-function checkSecondsElapsed(document, thresholdSeconds) {
+function checkDaysElapsed(document, thresholdDays) {
     const createdAtDate = new Date(document.createdAt);
     const timeDifference = new Date() - createdAtDate;
-    const secondsElapsed = Math.floor(timeDifference / 1000);
+    const daysElapsed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-    return secondsElapsed >= thresholdSeconds;
+    return daysElapsed >= thresholdDays;
 }
 
 //get
