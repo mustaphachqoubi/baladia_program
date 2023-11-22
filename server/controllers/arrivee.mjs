@@ -1,6 +1,32 @@
 import Arrivee from "../models/arrivee.mjs"
 import mongoose from 'mongoose'
 
+// delay
+export const checkNotifications = async (req, res) => {
+    try {
+        // Fetch all documents from the Arrivee collection
+        const allArrivee = await Arrivee.find({});
+
+        // Set the threshold seconds for testing (e.g., 10 seconds)
+        const thresholdSeconds = 10;
+
+        // Filter documents based on the checkSecondsElapsed function
+        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds));
+
+        res.status(200).json(delayedArrivee);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+function checkSecondsElapsed(document, thresholdSeconds) {
+    const createdAtDate = new Date(document.createdAt);
+    const timeDifference = new Date() - createdAtDate;
+    const secondsElapsed = Math.floor(timeDifference / 1000);
+
+    return secondsElapsed >= thresholdSeconds;
+}
+
 //get
 export const getArrivee = async (req, res) => {
     const arrivee = await Arrivee.find({}).sort({ createdAt: -1})

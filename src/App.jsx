@@ -32,20 +32,18 @@ function App() {
     e.preventDefault();
 
     if (location.pathname === "/arrivee") {
-      console.log(deleteId)
       axios
         .delete(`https://baladia-program.onrender.com/arrivee/${deleteId}`)
         .then((res) => {
-          console.log(res);
+          window.location.reload()
         });
     }
 
     if (location.pathname === "/depart") {
-      console.log(deleteId)
       axios
         .delete(`https://baladia-program.onrender.com/depart/${deleteId}`)
         .then((res) => {
-          console.log(res);
+          window.location.reload()
         });
     }
   };
@@ -58,8 +56,7 @@ function App() {
         const response = await axios.post(process.env.REACT_APP_DEPART, {
           DepartTd: [waitedData],
         });
-        console.log(response.data);
-        console.log(waitedData);
+          window.location.reload()
       } catch (error) {
         console.error("Error:", error);
       }
@@ -73,8 +70,7 @@ function App() {
             ArriveeTd: [waitedData],
           }
         );
-        console.log(waitedData);
-        console.log(response.data);
+          window.location.reload()
       } catch (error) {
         console.error("Error:", error);
       }
@@ -140,7 +136,6 @@ function App() {
             className="w-60 p-2 text-white border-2 border-black rounded-md"
           />
           <input
-            required
             {...register("answerdate")}
             type="date"
             className="w-60 p-2 text-white border-2 border-black rounded-md"
