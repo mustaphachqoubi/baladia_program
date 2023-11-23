@@ -1,30 +1,6 @@
 import Depart from "../models/depart.mjs";
 import mongoose from 'mongoose'
 
-// delay
-export const checkNotifications = async (req, res) => {
-    try {
-        const allArrivee = await Arrivee.find({});
-
-        const thresholdDays = 4;
-
-        const delayedArrivee = allArrivee.filter(doc => checkDaysElapsed(doc, thresholdDays));
-
-        res.status(200).json(delayedArrivee);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
-function checkDaysElapsed(document, thresholdDays) {
-    const createdAtDate = new Date(document.createdAt);
-    const timeDifference = new Date() - createdAtDate;
-    const secondsElapsed = Math.floor(timeDifference / 1000);
-
-    return secondsElapsed >= thresholdDays;
-}
-
-
 //  get
 export const getDepart = async (req, res) => {
     const depart = await Depart.find({}).sort({ createdAt: -1 })

@@ -24,6 +24,13 @@ export const Notifications = () => {
     }
   };
 
+  async function handleAnswerDocument(documentId, dataCategory) {
+    const endpoint = dataCategory === 'depart' ? 'depart' : 'arrivee';
+    await fetch(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`, {
+        method: 'POST',
+    });
+  }
+
   useEffect(() => {
     getArrivee();
   }, []);
@@ -40,6 +47,7 @@ export const Notifications = () => {
             <TableCell align="center" sx={{ fontWeight: "bold" }}>Désignation du destinataire</TableCell>
             <TableCell align="center" sx={{ fontWeight: "bold" }}>Analyse de l'affaire</TableCell>
             <TableCell align="center" sx={{ fontWeight: "bold" }}>Date et numéro de la réponse</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>Answer status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -61,6 +69,7 @@ export const Notifications = () => {
                   <TableCell align="center">{d.reciever}</TableCell>
                   <TableCell align="center">{d.subject}</TableCell>
                   <TableCell align="center">{d.answerdate}</TableCell>
+                  <TableCell align="center"><input onClick={(e) => e.target.value === "on" && handleAnswerDocument(arrivee._id, 'depart')} type="checkbox" /></TableCell>
                 </TableRow>
               ))
             )

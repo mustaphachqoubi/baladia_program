@@ -4,14 +4,11 @@ import mongoose from 'mongoose'
 // delay
 export const checkNotifications = async (req, res) => {
     try {
-        // Fetch all documents from the Arrivee collection
         const allArrivee = await Arrivee.find({});
 
-        // Set the threshold days
-        const thresholdDays = 4;
+        const thresholdSeconds = 10;
 
-        // Filter documents based on the checkDaysElapsed function
-        const delayedArrivee = allArrivee.filter(doc => checkDaysElapsed(doc, thresholdDays));
+        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds) && !doc.answered);
 
         res.status(200).json(delayedArrivee);
     } catch (error) {
@@ -19,13 +16,34 @@ export const checkNotifications = async (req, res) => {
     }
 };
 
-function checkDaysElapsed(document, thresholdDays) {
+function checkSecondsElapsed(document, thresholdSeconds) {
     const createdAtDate = new Date(document.createdAt);
     const timeDifference = new Date() - createdAtDate;
-    const daysElapsed = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    const secondsElapsed = Math.floor(timeDifference / 1000);
 
-    return daysElapsed >= thresholdDays;
+    return secondsElapsed >= thresholdSeconds;
 }
+
+// Mark a document as answered
+export const markAsAnswered = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: "id is not valid" });
+        }
+
+        const updatedDocument = await Arrivee.findByIdAndUpdate(id, { answered: true }, { new: true });
+
+        if (!updatedDocument) {
+            return res.status(404).json({ error: "There is no arrivee with this id found" });
+        }
+
+        res.status(200).json(updatedDocument);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
 //get
 export const getArrivee = async (req, res) => {
