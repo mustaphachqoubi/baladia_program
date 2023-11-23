@@ -8,10 +8,17 @@ export const checkNotifications = async (req, res) => {
 
         const thresholdSeconds = 10;
 
-        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds));
+        const delayedArrivee = allArrivee.filter(doc => {
+            const isDelayed = checkSecondsElapsed(doc, thresholdSeconds);
+            console.log(`Document ${doc._id} - Delayed: ${isDelayed}`);
+            return isDelayed;
+        });
+
+        console.log('Delayed Arrivee:', delayedArrivee);
 
         res.status(200).json(delayedArrivee);
     } catch (error) {
+        console.error('Error in checkNotifications:', error);
         res.status(500).json({ error: error.message });
     }
 };
