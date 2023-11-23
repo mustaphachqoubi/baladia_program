@@ -24,6 +24,27 @@ function checkSecondsElapsed(document, thresholdSeconds) {
     return secondsElapsed >= thresholdSeconds;
 }
 
+// Mark a document as answered
+export const markAsAnswered = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: "id is not valid" });
+        }
+
+        const updatedDocument = await Arrivee.findByIdAndUpdate(id, { answered: true }, { new: true });
+
+        if (!updatedDocument) {
+            return res.status(404).json({ error: "There is no arrivee with this id found" });
+        }
+
+        res.status(200).json(updatedDocument);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 //get
 export const getArrivee = async (req, res) => {
     const arrivee = await Arrivee.find({}).sort({ createdAt: -1})
