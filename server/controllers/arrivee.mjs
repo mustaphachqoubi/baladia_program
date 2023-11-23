@@ -4,21 +4,14 @@ import mongoose from 'mongoose'
 // delay
 export const checkNotifications = async (req, res) => {
     try {
-        const allArrivee = await Arrivee.find({ answered: false });
+        const allArrivee = await Arrivee.find({});
 
         const thresholdSeconds = 10;
 
-        const delayedArrivee = allArrivee.filter(doc => {
-            const isDelayed = checkSecondsElapsed(doc, thresholdSeconds);
-            console.log(`Document ${doc._id} - Delayed: ${isDelayed}`);
-            return isDelayed;
-        });
-
-        console.log('Delayed Arrivee:', delayedArrivee);
+        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds) && !doc.answered);
 
         res.status(200).json(delayedArrivee);
     } catch (error) {
-        console.error('Error in checkNotifications:', error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -30,27 +23,6 @@ function checkSecondsElapsed(document, thresholdSeconds) {
 
     return secondsElapsed >= thresholdSeconds;
 }
-
-// Mark a document as answered
-export const markAsAnswered = async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(404).json({ error: "id is not valid" });
-        }
-
-        const updatedDocument = await Arrivee.findByIdAndUpdate(id, { answered: true }, { new: true });
-
-        if (!updatedDocument) {
-            return res.status(404).json({ error: "There is no arrivee with this id found" });
-        }
-
-        res.status(200).json(updatedDocument);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
 
 //get
 export const getArrivee = async (req, res) => {
