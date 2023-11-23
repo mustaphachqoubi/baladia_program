@@ -15,7 +15,7 @@ export const Notifications = () => {
 
   const getArrivee = async () => {
     try {
-      const arrivee = await axios.get("https://baladia-program.onrender.com/arrivee");
+      const arrivee = await axios.get("https://baladia-program.onrender.com/arrivee/delay");
       const depart = await axios.get("https://baladia-program.onrender.com/depart");
       setArriveeData(arrivee.data);
       setDepartData(depart.data);
@@ -26,9 +26,12 @@ export const Notifications = () => {
 
   async function handleAnswerDocument(documentId, dataCategory) {
     const endpoint = dataCategory === 'depart' ? 'depart' : 'arrivee';
+
     await fetch(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`, {
         method: 'POST',
     });
+
+     getArrivee();
   }
 
   useEffect(() => {
@@ -69,7 +72,8 @@ export const Notifications = () => {
                   <TableCell align="center">{d.reciever}</TableCell>
                   <TableCell align="center">{d.subject}</TableCell>
                   <TableCell align="center">{d.answerdate}</TableCell>
-                  <TableCell align="center"><input onClick={(e) => e.target.value === "on" && handleAnswerDocument(arrivee._id, 'depart')} type="checkbox" /></TableCell>
+                  <TableCell align="center">
+                <input onClick={(e) => e.target.value === "on" && handleAnswerDocument(arrivee._id, 'arrivee')} type="checkbox" /></TableCell>
                 </TableRow>
               ))
             )

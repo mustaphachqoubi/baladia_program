@@ -4,11 +4,11 @@ import mongoose from 'mongoose'
 // delay
 export const checkNotifications = async (req, res) => {
     try {
-        const allArrivee = await Arrivee.find({});
+        const allArrivee = await Arrivee.find({ answered: false });
 
         const thresholdSeconds = 10;
 
-        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds) && !doc.answered);
+        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds));
 
         res.status(200).json(delayedArrivee);
     } catch (error) {
