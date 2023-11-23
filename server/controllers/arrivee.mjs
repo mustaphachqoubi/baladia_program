@@ -40,7 +40,7 @@ export const markAsAnswered = async (req, res) => {
             return res.status(404).json({ error: "id is not valid" });
         }
 
-        const updatedDocument = await Arrivee.findByIdAndUpdate(id, { answered: true }, { new: true });
+        const updatedDocument = await Arrivee.findByIdAndUpdate(id, { $set: { answered: true } }, { new: true });
 
         if (!updatedDocument) {
             return res.status(404).json({ error: "There is no arrivee with this id found" });
@@ -51,6 +51,7 @@ export const markAsAnswered = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 //get
 export const getArrivee = async (req, res) => {
