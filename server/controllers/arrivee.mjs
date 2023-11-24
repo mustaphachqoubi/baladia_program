@@ -2,26 +2,22 @@ import Arrivee from "../models/arrivee.mjs"
 import mongoose from 'mongoose'
 
 // delay
+
 export const checkNotifications = async (req, res) => {
     try {
         const allArrivee = await Arrivee.find({});
+        console.log('All Arrivee:', allArrivee);
 
         const thresholdSeconds = 10;
-
-        const delayedArrivee = allArrivee.filter(doc => {
-            const isDelayed = checkSecondsElapsed(doc, thresholdSeconds);
-            console.log(`Document ${doc._id} - Delayed: ${isDelayed}, Answered: ${doc.answered}`);
-            return isDelayed;
-        });
-
+        const delayedArrivee = allArrivee.filter(doc => checkSecondsElapsed(doc, thresholdSeconds) && !doc.answered);
         console.log('Delayed Arrivee:', delayedArrivee);
 
         res.status(200).json(delayedArrivee);
     } catch (error) {
-        console.error('Error in checkNotifications:', error);
         res.status(500).json({ error: error.message });
     }
 };
+
 
 function checkSecondsElapsed(document, thresholdSeconds) {
     const createdAtDate = new Date(document.createdAt);
