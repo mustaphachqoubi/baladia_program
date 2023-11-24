@@ -26,10 +26,10 @@ export const Notifications = () => {
 
   async function handleAnswerDocument(documentId, dataCategory) {
     const endpoint = dataCategory === 'depart' ? 'depart' : 'arrivee';
+    console.log(documentId, dataCategory)
 
-    await fetch(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`, {
-        method: 'POST',
-    });
+    axios.post(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`);
+
 
      getArrivee();
   }
