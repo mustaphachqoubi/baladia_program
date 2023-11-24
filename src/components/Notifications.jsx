@@ -16,7 +16,7 @@ export const Notifications = () => {
   const getArrivee = async () => {
     try {
       const arrivee = await axios.get("https://baladia-program.onrender.com/arrivee/delay");
-      const depart = await axios.get("https://baladia-program.onrender.com/depart");
+      const depart = await axios.get("https://baladia-program.onrender.com/depart/delay");
       setArriveeData(arrivee.data);
       setDepartData(depart.data);
     } catch (error) {
@@ -28,10 +28,8 @@ export const Notifications = () => {
     const endpoint = dataCategory === 'depart' ? 'depart' : 'arrivee';
 
     try {
-        // Assuming you want to make a POST request to mark the document as answered
         await axios.patch(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`);
         
-        // Refresh the data after marking as answered
         getArrivee();
     } catch (error) {
         console.error("Error marking as answered:", error);
