@@ -11,6 +11,9 @@ export const checkNotifications = async (req, res) => {
       (doc) => checkSecondsElapsed(doc, thresholdSeconds) && !doc.answered
     );
 
+console.log('All Arrivee:', allArrivee);
+console.log('Delayed Arrivee:', delayedArrivee);
+
     res.status(200).json(delayedArrivee);
   } catch (error) {
     res.status(500).json({ error: error.message });
