@@ -5,7 +5,7 @@ import {getDepart, createDepart, deleteDepart, markAsAnswered, checkNotification
 router.get("/", getDepart)
 router.post("/", createDepart)
 router.delete("/:id", deleteDepart)
-router.patch("/delay", checkNotifications)
+router.get("/delay", checkNotifications)
 router.patch("/delay/:id", markAsAnswered)
 
 export default router
