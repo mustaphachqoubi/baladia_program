@@ -8,7 +8,8 @@ const ArriveeTdSchema = new Schema({
     reciever: {type: String, require: true},
     subject: {type: String, require: true},
     answerdate: {type: String, require: true},
-    status: {type: String, require: false}
+    status: {type: String, require: false},
+    answered: { type: Boolean, default: false },
 })
 
 const arriveeSchema = new Schema({
