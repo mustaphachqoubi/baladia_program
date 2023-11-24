@@ -6,6 +6,6 @@ router.get("/", getArrivee)
 router.post("/", createArrivee)
 router.delete("/:id", deleteArrivee)
 router.get("/delay", checkNotifications)
-router.post("/delay/:id", markAsAnswered)
+router.patch("/delay/:id", markAsAnswered)
 
 export default router
