@@ -2,6 +2,8 @@ import Arrivee from "../models/arrivee.mjs";
 import mongoose from "mongoose";
 
 // delay
+
+
 export const checkNotifications = async (req, res) => {
   try {
     const allArrivee = await Arrivee.find({});
@@ -11,14 +13,19 @@ export const checkNotifications = async (req, res) => {
       (doc) => checkSecondsElapsed(doc, thresholdSeconds) && !doc.answered
     );
 
-console.log('All Arrivee:', allArrivee);
-console.log('Delayed Arrivee:', delayedArrivee);
+    // Send the response without documents with answered: true
+    const filteredDelayedArrivee = delayedArrivee.map((doc) => ({
+      ...doc.toObject(),
+      ArriveeTd: doc.ArriveeTd.filter((td) => !td.answered),
+    }));
 
-    res.status(200).json(delayedArrivee);
+    res.status(200).json(filteredDelayedArrivee);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
+
 
 function checkSecondsElapsed(document, thresholdSeconds) {
   const createdAtDate = new Date(document.createdAt);
