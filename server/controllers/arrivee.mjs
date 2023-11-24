@@ -28,7 +28,7 @@ function checkSecondsElapsed(document, thresholdSeconds) {
     const timeDifference = new Date() - createdAtDate;
     const secondsElapsed = Math.floor(timeDifference / 1000);
 
-    return secondsElapsed >= thresholdSeconds;
+    return !document.answered && secondsElapsed >= thresholdSeconds;
 }
 
 // Mark a document as answered

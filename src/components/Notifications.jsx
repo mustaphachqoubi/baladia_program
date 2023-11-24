@@ -26,12 +26,17 @@ export const Notifications = () => {
 
   async function handleAnswerDocument(documentId, dataCategory) {
     const endpoint = dataCategory === 'depart' ? 'depart' : 'arrivee';
-    console.log(documentId, dataCategory)
 
-    axios.post(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`);
+    try {
+        // Assuming you want to make a POST request to mark the document as answered
+        await axios.post(`https://baladia-program.onrender.com/${endpoint}/delay/${documentId}`);
+        
+        // Refresh the data after marking as answered
+        getArrivee();
+    } catch (error) {
+        console.error("Error marking as answered:", error);
+    }
 
-
-     getArrivee();
   }
 
   useEffect(() => {
