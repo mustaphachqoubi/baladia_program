@@ -29,6 +29,7 @@ function checkSecondsElapsed(document, thresholdSeconds) {
 }
 
 // Mark a document as answered
+
 export const markAsAnswered = async (req, res) => {
   const { id } = req.params;
 
@@ -39,11 +40,9 @@ export const markAsAnswered = async (req, res) => {
 
     const updatedDocument = await Arrivee.findOneAndUpdate(
       { _id: id },
-      { $set: { answered: true } },
+      { $set: { 'ArriveeTd.$[].answered': true } },
       { new: true }
     );
-
-    console.log("Document before update:", updatedDocument);
 
     if (!updatedDocument) {
       return res
@@ -51,11 +50,14 @@ export const markAsAnswered = async (req, res) => {
         .json({ error: "There is no arrivee with this id found" });
     }
 
+    console.log("Document before update:", updatedDocument);
+
     res.status(200).json(updatedDocument);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 //get
 export const getArrivee = async (req, res) => {
