@@ -9,8 +9,8 @@ export const checkNotifications = async (req, res) => {
         const thresholdSeconds = 10;
 
         const delayedArrivee = allArrivee.filter(doc => {
-            const isDelayed = !doc.answered && checkSecondsElapsed(doc, thresholdSeconds);
-            console.log(`Document ${doc._id} - Delayed: ${isDelayed}`);
+            const isDelayed = checkSecondsElapsed(doc, thresholdSeconds);
+            console.log(`Document ${doc._id} - Delayed: ${isDelayed}, Answered: ${doc.answered}`);
             return isDelayed;
         });
 
