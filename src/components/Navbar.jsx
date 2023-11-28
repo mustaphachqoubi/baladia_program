@@ -218,17 +218,11 @@ export const Navbar = ({ setFormDisplay, formDisplay, setDeleteDisplay, deleteDi
   return (
     <Box sx={{ flexGrow: 1 }} className="dontprint">
       <AppBar position="static">
+        
         <Toolbar>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-          </Search>
+        <div>
+          <h1 className="font-bold md:text-2xl">Bureau de order</h1>
+        </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" }, gap: "1rem" }}>
             <Link to="/depart">
@@ -249,7 +243,7 @@ export const Navbar = ({ setFormDisplay, formDisplay, setDeleteDisplay, deleteDi
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="error">
+                <Badge badgeContent={""} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
@@ -316,6 +310,7 @@ export const Navbar = ({ setFormDisplay, formDisplay, setDeleteDisplay, deleteDi
               <MoreIcon />
             </IconButton>
           </Box>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }} />
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
